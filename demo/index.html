@@ -49,26 +49,9 @@
             mainScript.setAttribute('worker', '');
             document.body.appendChild(mainScript);
         } else {
-            const checkCoiServiceWorker = () => {
-                const registration = n.serviceWorker.getRegistration();
-                // If there is no registration, return.
-                if (!registration) {
-                    setTimeout(checkCoiServiceWorker, 200);
-                    return;
-                }
-
-                // Get the service worker.
-                const serviceWorker = registration.active;
-
-                // If there is no service worker, return.
-                if (!serviceWorker) {
-                    setTimeout(checkCoiServiceWorker, 200);
-                    return;
-                }
-
+            setTimeout(() => {
                 location.reload();
-            }
-            checkCoiServiceWorker();
+            }, 1000);
         }
     </script>
 </body>
