@@ -23,6 +23,7 @@ packages = [
     "ivy_web/__init__.py",
     "ivy_web/__version__.py",
     "ivy_web/helper.py",
+    "ivy_web/packages/__init__.py",
     "ivy_web/packages/ivy/__init__.py",
     "ivy_web/packages/ivy/_version.py",
     "ivy_web/packages/ivy/compiler/compiler.py",
