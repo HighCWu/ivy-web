@@ -7,6 +7,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
+    <!-- Support SharedArrayBuffer on github pages -->
+    <!-- Remove it if your server could response header with:
+        {
+            "Cross-Origin-Opener-Policy": "same-origin",
+            "Cross-Origin-Embedder-Policy": "require-corp"
+        }, )
+    -->
     <script src="coi-serviceworker.min.js"></script>
 
     <!-- PyScript CSS -->
@@ -16,6 +23,21 @@
     <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
 </head>
 <body>
+    <!-- Uncomment it if your server could response header with:
+        {
+            "Cross-Origin-Opener-Policy": "same-origin",
+            "Cross-Origin-Embedder-Policy": "require-corp"
+        }, )
+    -->
+    <!-- <py-script src="./main.py" config="./pyscript.toml" terminal worker></py-script> -->
+    
+    <!-- Auto-reload page for CoiServiceWorker loading-->
+    <!-- Remove it if your server could response header with:
+        {
+            "Cross-Origin-Opener-Policy": "same-origin",
+            "Cross-Origin-Embedder-Policy": "require-corp"
+        }, )
+    -->
     <script>
         const n = navigator;
         const controlling = n.serviceWorker && n.serviceWorker.controller;
@@ -26,6 +48,27 @@
             mainScript.setAttribute('terminal', '');
             mainScript.setAttribute('worker', '');
             document.body.appendChild(mainScript);
+        } else {
+            const checkCoiServiceWorker = () => {
+                const registration = n.serviceWorker.getRegistration();
+                // If there is no registration, return.
+                if (!registration) {
+                    setTimeout(checkCoiServiceWorker, 200);
+                    return;
+                }
+
+                // Get the service worker.
+                const serviceWorker = registration.active;
+
+                // If there is no service worker, return.
+                if (!serviceWorker) {
+                    setTimeout(checkCoiServiceWorker, 200);
+                    return;
+                }
+
+                location.reload();
+            }
+            checkCoiServiceWorker();
         }
     </script>
 </body>
