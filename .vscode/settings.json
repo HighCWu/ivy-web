@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "./ivy_web/packages"
+    ]
+}

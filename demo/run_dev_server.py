@@ -1,6 +1,9 @@
 import os
 import glob
 import json
+import time
+import threading
+import webbrowser
 
 CUR_DIR = os.path.abspath(os.path.dirname(__file__))
 
@@ -46,12 +49,19 @@ class DevHTTPRequestHandler(server.SimpleHTTPRequestHandler):
         self.send_header("Cross-Origin-Opener-Policy", "same-origin")
         self.send_header("Cross-Origin-Embedder-Policy", "require-corp")
 
+def open_browser(url):
+    time.sleep(1)
+    webbrowser.open(url, new=2)
 
 def run(server_class=server.HTTPServer, handler_class=DevHTTPRequestHandler):
     server_address = ('', 8080)
     httpd = server_class(server_address, handler_class)
-    print('Dev server run on http://localhost:8080/index.dev.html')
+    url = 'http://localhost:8080/index.dev.html'
+    print(f'Dev server run on {url}')
+    t = threading.Thread(target=open_browser, args=(url,))
+    t.start()
     httpd.serve_forever()
+    t.join()
 
 if __name__ == '__main__':
     run()
